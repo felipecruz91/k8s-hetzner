@@ -9,6 +9,14 @@ resource "hcloud_ssh_key" "default" {
   public_key = file("~/.ssh/id_rsa.pub")
 }
 
+resource "hcloud_server" "master" {
+  name = "master"
+  image = "ubuntu-20.04"
+  server_type = "cx11"
+  location = "nbg1"
+  ssh_keys = [hcloud_ssh_key.default.name]
+}
+
 # Create a server
 resource "hcloud_server" "node" {
   count = 3 #TODO: Define it as variable
