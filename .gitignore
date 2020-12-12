@@ -1,4 +1,9 @@
-.terraform
-terraform.tfstate*
+# Compiled files
+*.tfstate
+*.tfstate.backup
+*.terraform.tfstate.lock.info
+
+# Module directory
+.terraform/
 
 hetzner-api-token.txt

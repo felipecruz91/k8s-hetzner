@@ -1,0 +1,23 @@
+{
+    "variables": {
+        "hcloud_token": "{{env `TF_VAR_hcloud_token`}}"
+    },
+    "sensitive-variables": ["hcloud_token"],
+    "builders": [
+        {
+            "type": "hcloud",
+            "token": "{{user `hcloud_token`}}",
+            "image": "ubuntu-18.04",
+            "location": "nbg1",
+            "server_type": "cx11",
+            "ssh_username": "root",
+            "snapshot_name": "k8s-1.19.5-containerd-ubuntu-18.04"
+        }
+    ],
+    "provisioners": [
+      {
+          "type": "shell",
+          "script": "../scripts/setup-image-containerd.sh"
+      }
+  ]
+}
