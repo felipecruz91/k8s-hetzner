@@ -70,5 +70,6 @@ data "external" "kubeadm_join" {
     key  = "~/.ssh/id_rsa" # private key
   }
 
-  depends_on = [hcloud_server.master]
+  # depends_on = [hcloud_server.master]
+  depends_on = [null_resource.k8s_master]
 }
