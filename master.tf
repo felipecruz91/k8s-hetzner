@@ -19,6 +19,16 @@ resource "hcloud_server" "master" {
 
 }
 
+resource "hcloud_floating_ip" "master" {
+  type      = "ipv4"
+  server_id = hcloud_server.master.id
+}
+
+resource "hcloud_floating_ip_assignment" "master" {
+  floating_ip_id = hcloud_floating_ip.master.id
+  server_id      = hcloud_server.master.id
+}
+
 resource "hcloud_server_network" "srvnetwork" {
   server_id  = hcloud_server.master.id
   network_id = hcloud_network.mynet.id
@@ -44,6 +54,11 @@ resource "null_resource" "k8s_master" {
       "chmod +x /tmp/run-master.sh",
       "/tmp/run-master.sh"
     ]
+  }
+
+  provisioner "local-exec" {
+    command    = "./scripts/kubectl-conf.sh ${terraform.workspace} ${hcloud_server.master.ipv4_address} ${hcloud_server_network.srvnetwork.ip} ~/.ssh/id_rsa"
+    on_failure = continue
   }
 }
 

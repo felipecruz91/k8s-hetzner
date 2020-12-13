@@ -32,6 +32,14 @@ terraform apply -auto-approve
 ssh -i ~/.ssh/id_rsa root@<IP_ADDRESS>
 ```
 
+```cli
+export KUBECONFIG="$(pwd)/$(terraform output kubectl_config)"
+kubectl --insecure-skip-tls-verify get nodes
+``
 ## Replacing the container runtime
 
 TODO
+```
+
+https://github.com/solidnerd/terraform-k8s-hcloud
+https://github.com/linode/terraform-linode-k8s

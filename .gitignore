@@ -6,4 +6,6 @@
 # Module directory
 .terraform/
 
+*.conf
+
 hetzner-api-token.txt
