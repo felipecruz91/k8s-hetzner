@@ -21,7 +21,7 @@ variable "master_location" {
 
 # Worker nodes vars (docker)
 variable "worker_nodes_count" {
-  default     = 1
+  default     = 3
   description = "Number of worker nodes (docker)"
 }
 
