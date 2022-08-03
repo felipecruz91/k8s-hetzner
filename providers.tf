@@ -4,6 +4,10 @@ terraform {
       source  = "hetznercloud/hcloud"
       version = ">= 1.23.0"
     }
+    external = {
+      source  = "hashicorp/external"
+      version = "2.2.2"
+    }
   }
 }
 
@@ -13,5 +17,4 @@ provider "hcloud" {
 }
 
 provider "external" {
-  version = "2.0.0"
 }
