@@ -13,7 +13,7 @@ resource "hcloud_server" "master" {
       type        = "ssh"
       user        = "root"
       host        = self.ipv4_address
-      private_key = file("~/.ssh/id_rsa")
+      private_key = file("${var.ssh_identity}")
     }
   }
 
@@ -45,7 +45,7 @@ resource "null_resource" "k8s_master" {
     type        = "ssh"
     host        = hcloud_server.master.ipv4_address
     user        = "root"
-    private_key = file("~/.ssh/id_rsa")
+    private_key = file("${var.ssh_identity}")
 
   }
 
@@ -57,7 +57,7 @@ resource "null_resource" "k8s_master" {
   }
 
   provisioner "local-exec" {
-    command    = "./scripts/kubectl-conf.sh ${terraform.workspace} ${hcloud_server.master.ipv4_address} ${hcloud_server_network.srvnetwork.ip} ~/.ssh/id_rsa"
+    command    = "./scripts/kubectl-conf.sh ${terraform.workspace} ${hcloud_server.master.ipv4_address} ${hcloud_server_network.srvnetwork.ip} ${var.ssh_identity}"
     on_failure = continue
   }
 }
@@ -67,7 +67,7 @@ data "external" "kubeadm_join" {
 
   query = {
     host = hcloud_server.master.ipv4_address
-    key  = "~/.ssh/id_rsa" # private key
+    key  = "${var.ssh_identity}" # private key
   }
 
   # depends_on = [hcloud_server.master]

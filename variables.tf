@@ -50,3 +50,9 @@ variable "worker_nodes_containerd_count" {
   default     = 0
   description = "Number of worker nodes (containerd)"
 }
+
+variable "ssh_identity" {
+  default     = "~/.ssh/id_rsa"
+  description = "SSH identity, used to copy keys"
+  type        = string
+}

@@ -44,7 +44,7 @@ resource "null_resource" "k8s_workers" {
     type        = "ssh"
     host        = hcloud_server.worker[count.index].ipv4_address
     user        = "root"
-    private_key = file("~/.ssh/id_rsa")
+    private_key = file("${var.ssh_identity}")
   }
 
   provisioner "remote-exec" {
@@ -66,7 +66,7 @@ resource "null_resource" "k8s_workers_containerd" {
     type        = "ssh"
     host        = hcloud_server.workercontainerd[count.index].ipv4_address
     user        = "root"
-    private_key = file("~/.ssh/id_rsa")
+    private_key = file("${var.ssh_identity}")
   }
 
   provisioner "remote-exec" {

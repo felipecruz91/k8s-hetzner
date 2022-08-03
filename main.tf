@@ -1,14 +1,14 @@
 data "hcloud_image" "k8s_image" {
-  id = 27792940
+  id = 78182617
 }
 
 data "hcloud_image" "k8s_image_containerd" {
-  id = 27798244
+  id = 78183075
 }
 
 resource "hcloud_ssh_key" "default" {
   name       = "my-ssh-key"
-  public_key = file("~/.ssh/id_rsa.pub")
+  public_key = file("${var.ssh_identity}.pub")
 }
 
 resource "hcloud_network" "mynet" {
