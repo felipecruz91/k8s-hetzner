@@ -85,8 +85,8 @@ $ export KUBECONFIG="$(pwd)/$(terraform output kubectl_config)"
 $ kubectl --insecure-skip-tls-verify get nodes -o wide
 
 NAME       STATUS   ROLES    AGE     VERSION   INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION       CONTAINER-RUNTIME
-master     Ready    master   3m45s   v1.19.5   78.47.249.188   <none>        Ubuntu 18.04.5 LTS   4.15.0-124-generic   docker://19.3.6
-worker-0   Ready    <none>   3m28s   v1.19.5   94.130.73.91    <none>        Ubuntu 18.04.5 LTS   4.15.0-124-generic   docker://19.3.6
-worker-1   Ready    <none>   3m23s   v1.19.5   157.90.17.247   <none>        Ubuntu 18.04.5 LTS   4.15.0-124-generic   docker://19.3.6
-worker-2   Ready    <none>   3m26s   v1.19.5   157.90.24.227   <none>        Ubuntu 18.04.5 LTS   4.15.0-124-generic   docker://19.3.6
+master     Ready    master   3m45s   v1.24.5   78.47.249.188   <none>        Ubuntu 18.04.5 LTS   4.15.0-124-generic   docker://19.3.6
+worker-0   Ready    <none>   3m28s   v1.24.5   94.130.73.91    <none>        Ubuntu 18.04.5 LTS   4.15.0-124-generic   docker://19.3.6
+worker-1   Ready    <none>   3m23s   v1.24.5   157.90.17.247   <none>        Ubuntu 18.04.5 LTS   4.15.0-124-generic   docker://19.3.6
+worker-2   Ready    <none>   3m26s   v1.24.5   157.90.24.227   <none>        Ubuntu 18.04.5 LTS   4.15.0-124-generic   docker://19.3.6
 ```

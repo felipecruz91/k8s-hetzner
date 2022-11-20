@@ -54,8 +54,8 @@ echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" \
 
 sudo apt-get update \
   && sudo apt-get install -yq \
-  kubelet=1.19.5-00 \
-  kubeadm=1.19.5-00 \
+  kubelet=1.24.5-00 \
+  kubeadm=1.24.5-00 \
   kubernetes-cni \
   perl # --> shasum: command not found
 
