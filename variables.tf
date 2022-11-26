@@ -50,3 +50,13 @@ variable "worker_nodes_containerd_count" {
   default     = 0
   description = "Number of worker nodes (containerd)"
 }
+
+variable "image_id" {
+  default     = 89738474
+  description = "Image of the node"
+}
+
+variable "image_id_containerd" {
+  default     = 89738685
+  description = "Image of the node"
+}

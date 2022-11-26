@@ -1,9 +1,9 @@
 data "hcloud_image" "k8s_image" {
-  id = 27792940
+  id = var.image_id
 }
 
 data "hcloud_image" "k8s_image_containerd" {
-  id = 27798244
+  id = var.image_id_containerd
 }
 
 resource "hcloud_ssh_key" "default" {

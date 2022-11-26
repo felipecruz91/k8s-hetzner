@@ -28,10 +28,27 @@ $ export TF_VAR_hcloud_token=$(cat hetzner-api-token.txt)
 
 ### Building the Kubernetes VM image with Packer
 
+Prepare snapshot image, so the terraform will use it to create and up nodes of the cluster.
+
+Run once the command below:
+
 ```cli
 $ cd images && \
     packer build image-master.json
 ```
+
+For containerd image use command `packer build image-master-containerd.json`.
+
+Now we have a snapshot and we need to know it's ID.
+
+To do this run:
+
+```cli
+$ curl -H "Authorization: Bearer $TF_VAR_hcloud_token" 'https://api.hetzner.cloud/v1/images'
+```
+
+and find the image's ID with the name described in the `image-master-containerd.json` and/or `image-master.json` files.
+Put pointed ID in the `variables.tf` config file.
 
 ### Usage
 
@@ -52,8 +69,9 @@ This will do the following:
 - connects to the master server via SSH and installs Docker CE and kubeadm apt packages
 - runs kubeadm init on the master server and configures kubectl
 - downloads the kubectl admin config file on your local machine and replaces the private IP with the public one
-- creates a Kubernetes secret with the Weave Net password
-- installs Weave Net with encrypted overlay
+- (obsolete) creates a Kubernetes secret with the Weave Net password
+- (obsolete) installs Weave Net with encrypted overlay
+- installs calico CNI
 - starts the nodes in parallel and installs Docker CE and kubeadm
 - joins the nodes in the cluster using the kubeadm token obtained from the master
 
@@ -62,6 +80,12 @@ Scale up by increasing the number of nodes:
 ```bash
 $ terraform apply \
  -var worker_nodes_count=4
+```
+
+There are two useful scripts which can be used to create and destroy a cluster:
+```cli
+upcl.sh
+docl.sh
 ```
 
 Tear down the whole infrastructure with:
@@ -78,15 +102,15 @@ the kubeadm join command and the current workspace admin config.
 In order to run `kubectl` commands against the Hetzner cluster you can use the `kubectl_config` output variable:
 
 ```bash
-$ export KUBECONFIG="$(pwd)/$(terraform output kubectl_config)"
+$ export KUBECONFIG="$(pwd)/$(terraform output --raw kubectl_config)"
 ```
 
 ```bash
 $ kubectl --insecure-skip-tls-verify get nodes -o wide
 
 NAME       STATUS   ROLES    AGE     VERSION   INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION       CONTAINER-RUNTIME
-master     Ready    master   3m45s   v1.19.5   78.47.249.188   <none>        Ubuntu 18.04.5 LTS   4.15.0-124-generic   docker://19.3.6
-worker-0   Ready    <none>   3m28s   v1.19.5   94.130.73.91    <none>        Ubuntu 18.04.5 LTS   4.15.0-124-generic   docker://19.3.6
-worker-1   Ready    <none>   3m23s   v1.19.5   157.90.17.247   <none>        Ubuntu 18.04.5 LTS   4.15.0-124-generic   docker://19.3.6
-worker-2   Ready    <none>   3m26s   v1.19.5   157.90.24.227   <none>        Ubuntu 18.04.5 LTS   4.15.0-124-generic   docker://19.3.6
+master     Ready    master   3m45s   v1.24.5   78.47.249.188   <none>        Ubuntu 18.04.5 LTS   4.15.0-124-generic   docker://19.3.6
+worker-0   Ready    <none>   3m28s   v1.24.5   94.130.73.91    <none>        Ubuntu 18.04.5 LTS   4.15.0-124-generic   docker://19.3.6
+worker-1   Ready    <none>   3m23s   v1.24.5   157.90.17.247   <none>        Ubuntu 18.04.5 LTS   4.15.0-124-generic   docker://19.3.6
+worker-2   Ready    <none>   3m26s   v1.24.5   157.90.24.227   <none>        Ubuntu 18.04.5 LTS   4.15.0-124-generic   docker://19.3.6
 ```
